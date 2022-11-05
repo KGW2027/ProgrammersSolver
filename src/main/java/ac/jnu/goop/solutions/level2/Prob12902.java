@@ -1,108 +1,63 @@
 package ac.jnu.goop.solutions.level2;
 
-import ac.jnu.goop.Testable;
+import ac.jnu.goop.SelfTestable;
+
+import java.util.Arrays;
 
 /**
  * Programmers Lv 2
  * 3 x n 타일링
- * 직접 풀기에 실패함
  *
- *
- * @since 2022.11.03 PM
+ * @since 1차시도 2022.11.03 / 2차시도 2022.11.05 PM 14:
  * @link https://school.programmers.co.kr/learn/courses/30/lessons/12902
- * 예제코드
- * @link https://www.geeksforgeeks.org/tiling-with-dominoes/
  */
-public class Prob12902 implements Testable {
+public class Prob12902 implements SelfTestable {
 
-    public int solution(int n) {
-        return (int) (countWays(n) % (int)(Math.pow(10, 9)+7));
+
+    @Override
+    public Object[][] testcases() {
+        return new Object[][]{
+                {4, 11},
+                {6, 41},
+                {8, 153},
+                {10, 571},
+                {12, 2131},
+                {14, 7953},
+        };
     }
-
-    private long countWays(int n) {
-        long []A = new long[n+1];
-        long []B = new long[n+1];
-        A[0] = 1; A[1] = 0;
-        B[0] = 0; B[1] = 1;
-        for (int i = 2; i <= n; i++)
-        {
-            A[i] = A[i - 2] + 2 * B[i - 1];
-            B[i] = A[i - 1] + B[i - 2];
-        }
-
-        return A[n];
-    }
-
-//    private long getSmallCases(int size) {
-//        tab += "\t";
-//
-//        // 만약 이미 구한 값이라면 빠르게 반환한다.
-//        if(groupsPostCalcs[size] > 0){
-//            tab = tab.substring(0, tab.length()-1);
-//            return groupsPostCalcs[size];
-//        }
-//        System.out.println(tab+"[Request] " + size);
-//
-//        long value = 0;
-//        for(int groupSize = size ; groupSize > 1 ; groupSize--) {
-//            System.out.println(tab + "[Test] " + groupSize);
-//            tab += "\t";
-//
-//            int lastSplit = size-groupSize;
-//
-//            for(int splitStart = 0 ; splitStart <= lastSplit ; splitStart++) {
-//                long leftValue = getSmallCases(splitStart) % mod;
-//                long rightValue = getSmallCases(size - (splitStart+groupSize)) % mod;
-//                long cases = ((leftValue * rightValue) << 1) % mod;
-//                System.out.printf(tab+"[%d ~ %d] * %d * [%d ~ %d] = %d \n", 0, splitStart, 2, splitStart+groupSize, size, cases);
-//                value += cases;
-//            }
-//
-//            value %= mod;
-//            tab = tab.substring(0, tab.length()-1);
-//        }
-//
-//        if(size > 1) {
-//            long pow = 1;
-//            for (int i = 0; i < size; i++) {
-//                pow *= 3;
-//                pow = pow % mod;
-//            }
-//            // 그룹이 하나도 없는 경우 ( pow )
-//            value += pow;
-//            System.out.println(tab+"[Pow] : " + pow);
-//            value %= mod;
-//        }
-//
-//        groupsPostCalcs[size] = value;
-//        tab = tab.substring(0, tab.length()-1);
-//        System.out.println(tab + "[Result] " + size + " => " + value);
-//        return value;
-//    }
-
-//
-//    private long getSmallCases(int size) {
-//
-//        if(groupsPostCalcs[size] > 0){
-//            return groupsPostCalcs[size];
-//        }
-//
-//        long count = 0;
-//        for(int groups = size ; groups > 1 ; groups--) {
-//            for(int start = 0 ; start <= size - groups ; start++) {
-//                long left = getSmallCases(start);
-//                long right = getSmallCases(size-(start+groups));
-//                long result = (left * right) << 1;
-//                count += result % mod;
-//            }
-//            count = count % mod;
-//        }
-//        groupsPostCalcs[size] = count;
-//        return count;
-//    }
 
     @Override
     public Object solution(Object... args) {
         return solution((int) args[0]);
+    }
+
+    public int solution(int n) {
+
+        long[] length = new long[n+1];
+        length[0] = 1;
+        length[1] = 1;
+
+        int modNumber = (int) (Math.pow(10, 9) + 7);
+
+        // 길이가 2일 때, 경우의수 3
+        // 길이가 3일 때, 가장 오른쪽에 1칸을 비운다고 생각하면
+        // 길이 2의 경우의수 3 + (오른쪽1칸을 눕히는 경우의수) 1 = 4 * 2(위아래)
+        // 길이가 4일 때, (ㄱ모양 + 길이3)*2 + (=모양 길이2)*1
+        // 길이 5일 때,
+        // 오른쪽 1칸이 세워져있을때는 왼쪽 4칸의 경우의수
+        // 오른쪽 1칸이 눕혀져있을 때는, 길이 3의 경우의수
+        // ... 일반화
+        for(int size = 2 ; size <= n ; size++) {
+            if(size%2 == 0) {
+                length[size] = length[size - 2] + length[size-1]*2;
+            } else {
+                length[size] = (length[size - 2] + length[size-1]);
+            }
+            length[size] %= modNumber;
+        }
+
+        System.out.println(Arrays.toString(length));
+
+        return (int) (length[n]);
     }
 }
