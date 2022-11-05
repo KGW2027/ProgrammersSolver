@@ -27,12 +27,12 @@ public class Prob42890 implements SelfTestable {
     }
 
     String[][] relations;
-    List<boolean[]> candidateKeys;
+    List<Integer> candidateFlags;
     int count;
     public int solution(String[][] relation) {
 
         int columns = relation[0].length;
-        this.candidateKeys = new ArrayList<>();
+        this.candidateFlags = new ArrayList<>();
         this.relations = relation;
         this.count = 0;
 
@@ -63,7 +63,9 @@ public class Prob42890 implements SelfTestable {
             }
 
             if(overlapped.size() == relations.length) { // 만약 중복된 데이터가 없고, 최소성을 만족한다면 후보키로 추가한다.
-                candidateKeys.add(selects);
+                int flag = 0;
+                for(int k = 0 ; k < relations[0].length ; k++) flag += (int) (selects[k] ? Math.pow(2, k) : 0);
+                candidateFlags.add(flag);
                 count++;
             }
         } else { // 그룹사이즈가 더 커야한다면, 추가로 진행한다.
@@ -78,14 +80,10 @@ public class Prob42890 implements SelfTestable {
 
     private boolean validMinimality(boolean[] selects) {
         // 최소성을 검사하기 위해 검사대상인 selects와 이미 후보키로 저장된 키들을 flag로 만든 후, AND 연산을 통해 최소성을 만족하는지 확인한다.
-        int compare1 = 0, compare2;
-        for(int k1 = 0 ; k1 < relations[0].length ; k1++) compare1 += (int) (selects[k1] ? Math.pow(2, k1) : 0);
+        int compare = 0;
+        for(int k1 = 0 ; k1 < relations[0].length ; k1++) compare += (int) (selects[k1] ? Math.pow(2, k1) : 0);
 
-        for(boolean[] cands : candidateKeys) {
-            compare2 = 0;
-            for(int k2 = 0 ; k2 < relations[0].length ; k2++) compare2 += (int) (cands[k2] ? Math.pow(2, k2) : 0);
-            if((compare1 & compare2) == compare2) return false;
-        }
+        for(int flag : candidateFlags) if((compare & flag) == flag) return false;
         return true;
     }
 }
