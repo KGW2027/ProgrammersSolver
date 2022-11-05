@@ -4,16 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TestcaseExecutor {
 
-    Testable instance;
-    HashMap<List<Object>, Object> testcase;
+    private final Testable instance;
+    private final HashMap<List<Object>, Object> testcase;
 
     public TestcaseExecutor(Testable instance) {
         this.instance = instance;
         testcase = new HashMap<>();
+    }
+
+    public TestcaseExecutor(SelfTestable instance) {
+        this.instance = instance;
+        testcase = new HashMap<>();
+        for(Object[] tc : instance.testcases()) {
+            List<Object> args = Arrays.asList(Arrays.copyOfRange(tc, 0, tc.length-1));
+            Object result = tc[tc.length-1];
+            testcase.put(args, result);
+        }
     }
 
     public TestcaseExecutor addTestCase(Object result, Object... args) {
@@ -23,10 +32,16 @@ public class TestcaseExecutor {
     }
 
     public boolean test() {
-        for(List<Object> input : testcase.keySet()) {
-            Object result = instance.solution(input.toArray());
-            if(!resultEquals(result, testcase.get(input))) return false;
+        boolean[] success = new boolean[testcase.size()];
+        List<List<Object>> keySet = new ArrayList<>(testcase.keySet());
+        for(int tc = 0 ; tc < testcase.size() ; tc++) {
+            List<Object> key = keySet.get(tc);
+            Object result = instance.solution(key.toArray());
+            success[tc] = resultEquals(result, testcase.get(key));
+            System.out.printf("[Testcase %d] %s\n", tc, success[tc]);
         }
+
+        for(boolean b : success) if(!b) return false;
         return true;
     }
 
@@ -48,6 +63,7 @@ public class TestcaseExecutor {
         }
 
         boolean compare() {
+            if(array1.length != array2.length) return false;
             for(int i= 0 ; i < array1.length ; i++) {
                 if(!array1[i].equals(array2[i])) return false;
             }
