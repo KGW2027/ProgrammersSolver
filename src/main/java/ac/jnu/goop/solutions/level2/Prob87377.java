@@ -3,14 +3,13 @@ package ac.jnu.goop.solutions.level2;
 import ac.jnu.goop.SelfTestable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Programmers Lv2
  * 교점에 별 만들기
  * 
- * @since 2022/11/05
+ * @since 2022/11/05 11:50
  * @link https://school.programmers.co.kr/learn/courses/30/lessons/87377
  */
 public class Prob87377 implements SelfTestable {
@@ -94,7 +93,6 @@ public class Prob87377 implements SelfTestable {
             answer[--cnt] = sb.toString();
         }
 
-        System.out.println(Arrays.toString(answer));
         return answer;
     }
 }

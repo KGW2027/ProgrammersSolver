@@ -6,7 +6,7 @@ import ac.jnu.goop.SelfTestable;
  * Programmers Lv2
  * 단체사진 찍기
  *
- * @since 2022/11/05
+ * @since 2022/11/05 13:17
  * @link https://school.programmers.co.kr/learn/courses/30/lessons/1835#qna
  */
 public class Prob1835 implements SelfTestable {
