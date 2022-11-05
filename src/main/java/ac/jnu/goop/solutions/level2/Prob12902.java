@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Programmers Lv 2
  * 3 x n 타일링
  *
- * @since 1차시도 2022.11.03 / 2차시도 2022.11.05 PM 14:
+ * @since 1차시도 2022.11.03 / 2차시도 2022.11.05 PM 14:20
  * @link https://school.programmers.co.kr/learn/courses/30/lessons/12902
  */
 public class Prob12902 implements SelfTestable {
