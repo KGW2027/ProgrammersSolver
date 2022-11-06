@@ -2,6 +2,9 @@ package ac.jnu.goop.solutions.level2;
 
 import ac.jnu.goop.SelfTestable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Programmers Lv2
  * 가장 큰 정사각형 찾기
@@ -30,16 +33,15 @@ public class Prob12905 implements SelfTestable {
     }
 
     public int solution(int[][] board) {
-        int y = board.length - 1, bigSize = 0;
+        int y = 0, bigSize = 0;
         int continued;
         int[] xTest = new int[board[0].length];
         int[] xTesting = new int[board[0].length];
-        while (y >= 0) {
+        while (board.length > y) {
             continued = 0;
 
             for (int x = 0; x < board[0].length; x++) {
                 if (board[y][x] == 0) {
-                    if((xTest[x] - xTesting[x]) > bigSize) bigSize = xTest[x] - xTesting[x];
                     xTest[x] = 0;
                     xTesting[x] = 0;
                     continued = 0;
@@ -71,7 +73,7 @@ public class Prob12905 implements SelfTestable {
 
                 }
             }
-            y--;
+            y++;
         }
 
         return bigSize * bigSize;
