@@ -4,6 +4,13 @@ import ac.jnu.goop.SelfTestable;
 
 import java.util.*;
 
+/**
+ * 프로그래머즈 Lv2
+ * 순위 검색
+ *
+ * @since 2022.11.07 PM 22:58
+ * @link https://school.programmers.co.kr/learn/courses/30/lessons/72412
+ */
 public class Prob72412 implements SelfTestable {
     @Override
     public Object[][] testcases() {
