@@ -2,8 +2,14 @@ package ac.jnu.goop.solutions.level2;
 
 import ac.jnu.goop.SelfTestable;
 
-import java.util.Arrays;
 
+/**
+ * 프로그래머즈 Lv2
+ * 배달
+ *
+ * @since 2022.11.07 PM 21:10
+ * @link https://school.programmers.co.kr/learn/courses/30/lessons/12978
+ */
 public class Prob12978 implements SelfTestable {
     @Override
     public Object[][] testcases() {
