@@ -34,14 +34,14 @@ public class TestcaseExecutor {
     public boolean test() {
         boolean[] success = new boolean[testcase.size()];
         List<List<Object>> keySet = new ArrayList<>(testcase.keySet());
-        for(int tc = 0 ; tc < testcase.size() ; tc++) {
+        for (int tc = 0; tc < testcase.size(); tc++) {
             List<Object> key = keySet.get(tc);
             Object result = instance.solution(key.toArray());
             success[tc] = resultEquals(result, testcase.get(key));
             System.out.printf("[Testcase %d] %s\n", tc, success[tc]);
         }
 
-        for(boolean b : success) if(!b) return false;
+        for (boolean b : success) if (!b) return false;
         return true;
     }
 
