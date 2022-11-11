@@ -8,7 +8,7 @@ import java.io.*;
  * Solved Gold V
  * 제곱 수 찾기
  *
- * @since 2022.11.11 AM 11:
+ * @since 2022.11.11 PM 12:12
  * @link https://www.acmicpc.net/problem/1025
  */
 public class Solve1025 implements SolvedTestable {
@@ -53,22 +53,19 @@ public class Solve1025 implements SolvedTestable {
 
     private int find(char[][] matrix, int x, int y) {
         int max = -1;
-        StringBuilder ixiytester = new StringBuilder();
-        StringBuilder ixdytester = new StringBuilder();
-        StringBuilder dxdytester = new StringBuilder();
-        StringBuilder dxiytester = new StringBuilder();
+        int ixiy, ixdy, dxiy, dxdy;
         boolean ixiyReachEnd, ixdyReachEnd, dxdyReachEnd, dxiyReachEnd;
         for (int xGap = 0; xGap < matrix[0].length; xGap++) {
             for (int yGap = 0 ; yGap < matrix.length ; yGap++) {
                 if(xGap == 0 && yGap == 0) continue;
 
-                ixiytester.setLength(0);
+                ixiy = 0;
+                ixdy = 0;
+                dxiy = 0;
+                dxdy = 0;
                 ixiyReachEnd = false;
-                ixdytester.setLength(0);
                 ixdyReachEnd = false;
-                dxdytester.setLength(0);
                 dxdyReachEnd = false;
-                dxiytester.setLength(0);
                 dxiyReachEnd = false;
 
                 for(int multiplier = 0 ; ; multiplier++) {
@@ -100,27 +97,27 @@ public class Solve1025 implements SolvedTestable {
                     }
 
                     if(!ixiyReachEnd) {
-                        ixiytester.append(matrix[iy][ix]);
-                        int test = Integer.parseInt(ixiytester.toString());
-                        if(test > max && check(test)) max = test;
+                        ixiy *= 10;
+                        ixiy += matrix[iy][ix] - '0';
+                        if(ixiy > max && check(ixiy)) max = ixiy;
                     }
 
                     if(!dxiyReachEnd) {
-                        dxiytester.append(matrix[iy][dx]);
-                        int test = Integer.parseInt(dxiytester.toString());
-                        if(test > max && check(test)) max = test;
+                        dxiy *= 10;
+                        dxiy += matrix[iy][dx] - '0';
+                        if(dxiy > max && check(dxiy)) max = dxiy;
                     }
 
                     if(!ixdyReachEnd) {
-                        ixdytester.append(matrix[dy][ix]);
-                        int test = Integer.parseInt(ixdytester.toString());
-                        if(test > max && check(test)) max = test;
+                        ixdy *= 10;
+                        ixdy += matrix[dy][ix] - '0';
+                        if(ixdy > max && check(ixdy)) max = ixdy;
                     }
 
                     if(!dxdyReachEnd) {
-                        dxdytester.append(matrix[dy][dx]);
-                        int test = Integer.parseInt(dxdytester.toString());
-                        if(test > max && check(test)) max = test;
+                        dxdy *= 10;
+                        dxdy += matrix[dy][dx] - '0';
+                        if(dxdy > max && check(dxdy)) max = dxdy;
                     }
                 }
             }
