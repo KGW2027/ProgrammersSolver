@@ -4,6 +4,7 @@ import ac.jnu.goop.SolvedTestable;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,26 +16,6 @@ import java.util.List;
  */
 public class Solve16722 implements SolvedTestable {
 
-    // 모두 같을 경우 OR 연산의 값이 같다
-    // 모두 다를 경우 OR 연산의 값이 8(<< x)-1이다.
-    enum CardStatus {
-        CIRCLE(1),
-        TRIANGLE(2),
-        SQUARE(4),
-
-        YELLOW(1 << 8),
-        RED(2 << 8),
-        BLUE(4 << 8),
-
-        GRAY(1 << 16),
-        WHITE(2 << 16),
-        BLACK(4 << 16)
-        ;
-
-        int flag;
-        CardStatus(int i) { flag = i; }
-    }
-
     @Override
     public void solution() throws IOException {
         int[] cards = new int[9];
@@ -42,7 +23,7 @@ public class Solve16722 implements SolvedTestable {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         for(int card = 0 ; card < cards.length ; card++) {
             String[] stat = br.readLine().split(" ");
-            cards[card] = CardStatus.valueOf(stat[0]).flag + CardStatus.valueOf(stat[1]).flag + CardStatus.valueOf(stat[2]).flag;
+            cards[card] = getFlag(stat[0]) + (getFlag(stat[1]) << 8) + (getFlag(stat[2]) << 16);
         }
 
         List<Integer> haps = new ArrayList<>();
@@ -93,5 +74,23 @@ public class Solve16722 implements SolvedTestable {
         return (shape == (c1 & 0x000000FF) || shape == 7)
                 &&  (foreground == (c1 & 0x0000FF00) >> 8 || foreground == 7)
                 &&  (background == (c1 & 0x00FF0000) >> 16 || background == 7);
+    }
+
+    private int getFlag(String text) {
+        char first = text.charAt(0);
+        switch(first) {
+            case 'C':
+            case 'Y':
+            case 'G':
+                return 1;
+            case 'B':
+            case 'S':
+                return 4;
+            case 'T':
+            case 'R':
+            case 'W':
+                return 2;
+        }
+        return -1;
     }
 }
